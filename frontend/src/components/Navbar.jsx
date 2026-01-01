@@ -13,13 +13,17 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
-      <nav className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+      <nav className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex justify-between items-center">
         {/* LOGO */}
         <Link 
           to="/" 
-          className="font-black text-2xl md:text-3xl bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent hover:from-slate-800 hover:to-slate-600 transition-all duration-300"
+          className="hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
         >
-          Chatakh Creations
+          <img 
+            src="/logo.png" 
+            alt="Chatakh Creations" 
+            className="h-20 md:h-24 w-auto -my-4"
+          />
         </Link>
 
         {/* DESKTOP MENU */}

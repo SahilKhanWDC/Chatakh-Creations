@@ -87,20 +87,20 @@ const Collections = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-slate-950 w-full">
       {/* HEADER */}
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-12 md:py-16 px-4 md:px-6">
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">Collections</h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3">Collections</h1>
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
             Discover our curated collection of premium clothing for every style and occasion
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-8 sm:py-10 md:py-12 w-full">
         {/* CATEGORY FILTER BUTTONS */}
-        <div className="mb-8 flex gap-3 justify-center flex-wrap">
+        <div className="mb-6 sm:mb-8 flex gap-2 sm:gap-3 justify-center flex-wrap">
           {categories.map((c) => (
             <button
               key={c.value}
@@ -108,7 +108,7 @@ const Collections = () => {
                 setFilter(c.value);
                 setSubcategory("all");
               }}
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 ${
                 filter === c.value
                   ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-400/50 scale-105"
                   : "bg-slate-800 text-gray-300 border border-slate-700 hover:border-blue-400 hover:shadow-md"
@@ -121,12 +121,12 @@ const Collections = () => {
 
         {/* SUBCATEGORY FILTER BUTTONS */}
         {filter !== "all" && subcategoryMap[filter] && (
-          <div className="mb-12 flex gap-3 justify-center flex-wrap">
+          <div className="mb-8 sm:mb-10 md:mb-12 flex gap-2 sm:gap-3 justify-center flex-wrap">
             {subcategoryMap[filter].map((sub) => (
               <button
                 key={sub.value}
                 onClick={() => setSubcategory(sub.value)}
-                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   subcategory === sub.value
                     ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-400/50"
                     : "bg-slate-800 text-gray-400 border border-slate-700 hover:border-purple-400 hover:shadow-md"
@@ -140,18 +140,18 @@ const Collections = () => {
 
         {/* PRODUCTS GRID */}
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="flex justify-center items-center py-16 sm:py-20">
+            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-xl text-gray-300 font-semibold">
+          <div className="text-center py-16 sm:py-20">
+            <p className="text-lg sm:text-xl text-gray-300 font-semibold">
               No products available in this category
             </p>
-            <p className="text-gray-500 mt-2">Check back soon for new arrivals!</p>
+            <p className="text-gray-500 mt-2 text-sm sm:text-base">Check back soon for new arrivals!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
             {products.map((p) => (
               <ProductCard key={p._id} product={p} />
             ))}

@@ -1,16 +1,72 @@
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+  color: #fff;
+  overflow-x: hidden;
 }
+
+#root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 a {
   margin-right: 10px;
+  text-decoration: none;
 }
+
 button {
   padding: 8px 12px;
   cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-size: 16px; /* Prevents zoom on iOS */
+  font-family: inherit;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  html, body, #root {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  body {
+    font-size: 14px;
+  }
 }
 
 .input {
-  @apply w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black;
+  @apply w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-base;
+}
+
+/* Responsive text classes */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  h3 {
+    font-size: 1.25rem !important;
+  }
 }
 

@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useAuth as useClerkAuth } from "@clerk/clerk-react";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Collections from "./pages/Collections";
@@ -10,9 +12,16 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyOrders from "./pages/MyOrders";
+import { setupAxiosInterceptors } from "./api/axios";
 import "./App.css"
 
 const App = () => {
+  const { getToken } = useClerkAuth();
+
+  useEffect(() => {
+    setupAxiosInterceptors(getToken);
+  }, [getToken]);
+
   return (
     <CartProvider>
       <AuthProvider>

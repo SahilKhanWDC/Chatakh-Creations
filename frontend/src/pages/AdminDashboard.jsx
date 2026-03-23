@@ -3,7 +3,7 @@ import api from "../api/axios";
 import { useUser } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 
-const VITE_API_URL = "http://localhost:5000";
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const AdminDashboard = () => {
   const { getToken } = useAuth();

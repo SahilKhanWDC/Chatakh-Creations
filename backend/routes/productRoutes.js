@@ -17,7 +17,17 @@ router.post(
   "/upload",
   requireAuth,
   adminOnly,
-  upload.array("images", 8),
+  (req, res, next) => {
+    upload.array("images", 8)(req, res, (err) => {
+      if (err) {
+        console.error("MULTER ERROR:", err);
+        return res.status(400).json({ 
+          message: err.message || "File upload failed" 
+        });
+      }
+      next();
+    });
+  },
   (req, res) => {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: "No files uploaded" });

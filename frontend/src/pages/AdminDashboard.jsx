@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api, { setupAxiosInterceptors } from "../api/axios";
 import { useUser } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const { getToken } = useAuth();
   const { user, isLoaded, isSignedIn } = useUser();
   const [images, setImages] = useState([]);
+  const [loadError, setLoadError] = useState(null);
   // const token = await getToken();
 
   const [orders, setOrders] = useState([]);
@@ -51,12 +52,25 @@ const AdminDashboard = () => {
     ],
   };
 
+  useEffect(() => {
+    setupAxiosInterceptors(getToken);
+  }, [getToken]);
+
   const fetchAdminData = async () => {
     try {
       const token = await getToken();
+      
+      if (!token) {
+        console.error("No token available for API call");
+        return;
+      }
 
       const [productsRes, ordersRes] = await Promise.all([
-        api.get("/api/products"),
+        api.get("/api/products", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
         api.get("/api/orders", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,8 +80,15 @@ const AdminDashboard = () => {
 
       setProducts(productsRes.data);
       setOrders(ordersRes.data);
+      setLoadError(null);
     } catch (err) {
-      console.error("ADMIN FETCH ERROR:", err.response?.data || err.message);
+      const errorMsg = err.response?.data?.message || err.message;
+      setLoadError(errorMsg);
+      console.error("DATA FETCH ERROR:", {
+        status: err.response?.status,
+        message: errorMsg,
+        endpoint: err.response?.config?.url,
+      });
     }
   };
 
@@ -75,8 +96,10 @@ const AdminDashboard = () => {
     if (!isLoaded || !isSignedIn) return;
     if (user?.publicMetadata?.role !== "admin") return;
 
+    // Ensure interceptor is set up with fresh token
+    setupAxiosInterceptors(getToken);
     fetchAdminData();
-  }, [isLoaded, isSignedIn, user]);
+  }, [isLoaded, isSignedIn, user, getToken]);
 
   if (!isLoaded) return <p>Loading...</p>;
 
@@ -296,6 +319,12 @@ const AdminDashboard = () => {
           </h1>
           <p className="text-gray-600">Manage products and orders</p>
         </div>
+
+        {loadError && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-8">
+            <p className="text-red-700 font-semibold">⚠️ Data Load Error: {loadError}</p>
+          </div>
+        )}
 
         {/* ADD PRODUCT */}
         <section className="bg-white rounded-2xl shadow-lg p-8 mb-12">

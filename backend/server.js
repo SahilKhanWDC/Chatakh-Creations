@@ -19,10 +19,7 @@ connectDB();
 
 const app = express();
 
-// Clerk middleware MUST come before routes
-app.use(clerkMiddleware());
-
-// CORS must come after Clerk but before routes
+// 1. CORS MUST BE ABSOLUTELY FIRST
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
@@ -42,12 +39,17 @@ app.use(cors({
       callback(new Error("CORS policy: origin not allowed"));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS here
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
-app.use(express.json());
+// 2. BODY PARSERS NEXT (Increased limits to prevent payload crashes)
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+// 3. CLERK MIDDLEWARE COMES AFTER CORS
+app.use(clerkMiddleware());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

@@ -18,9 +18,16 @@ const __dirname = path.dirname(__filename);
 connectDB();
 
 const app = express();
+
+app.use(
+  clerkMiddleware({
+    secretKey: process.env.CLERK_SECRET_KEY,
+  })
+);
+
 app.use(cors());
 app.use(express.json());
-app.use(clerkMiddleware());
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/products", productRoutes);

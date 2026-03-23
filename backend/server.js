@@ -19,11 +19,7 @@ connectDB();
 
 const app = express();
 
-app.use(
-  clerkMiddleware({
-    secretKey: process.env.CLERK_SECRET_KEY,
-  })
-);
+app.use(clerkMiddleware());
 
 app.use(cors({
   origin: (origin, callback) => {

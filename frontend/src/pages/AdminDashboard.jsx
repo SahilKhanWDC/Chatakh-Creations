@@ -95,6 +95,11 @@ const AdminDashboard = () => {
       }
 
       const token = await getToken();
+      
+      if (!token) {
+        alert("Authentication token not found. Please ensure you're logged in as an admin.");
+        return;
+      }
 
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
@@ -107,11 +112,14 @@ const AdminDashboard = () => {
         },
       });
 
-      // setImages([...images, ...res.data.imageUrls]);
       setImages(prev => [...prev, ...res.data.imageUrls]);
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message || "Image upload failed";
-      console.error("UPLOAD ERROR:", errorMsg);
+      console.error("UPLOAD ERROR DETAILS:", {
+        status: error.response?.status,
+        message: errorMsg,
+        fullError: error
+      });
       alert(errorMsg);
     }
   };

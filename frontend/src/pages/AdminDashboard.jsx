@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api, { setupAxiosInterceptors } from "../api/axios";
 import { useUser } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -52,9 +52,9 @@ const AdminDashboard = () => {
     ],
   };
 
-  useEffect(() => {
-    setupAxiosInterceptors(getToken);
-  }, [getToken]);
+  // useEffect(() => {
+  //   setupAxiosInterceptors(getToken);
+  // }, [getToken]);
 
   const fetchAdminData = async () => {
     try {

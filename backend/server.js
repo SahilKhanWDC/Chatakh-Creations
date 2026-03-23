@@ -51,9 +51,15 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
 
+// 404 handler for undefined routes
+app.use((req, res) => {
+  console.warn("404 - Route not found:", req.method, req.path);
+  res.status(404).json({ message: "Route not found" });
+});
+
 app.use((err, req, res, next) => {
-  console.error("GLOBAL ERROR:", err.message);
-  res.status(500).json({ message: err.message });
+  console.error("GLOBAL ERROR:", err.message, err.stack);
+  res.status(err.status || 500).json({ message: err.message || "Internal server error" });
 });
 
 

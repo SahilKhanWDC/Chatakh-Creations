@@ -1,30 +1,29 @@
 import { clerkMiddleware, clerkClient, getAuth } from "@clerk/express";
 
+export const requireAuth = (req, res, next) => {
+  try {
+    const { userId, sessionId } = getAuth(req);
 
-export const requireAuth = async (req, res, next) => {
-  const auth = getAuth(req);
-  const { userId } = auth;
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
 
-  if (!userId) {
-    console.error("AUTH DEBUG:", {
-      authorization: req.headers.authorization ? "present" : "missing",
-      authObjectKeys: Object.keys(auth),
-      userId: userId,
-    });
-    return res.status(401).json({ message: "Not authenticated" });
+    req.auth = { userId, sessionId };
+    next();
+  } catch (err) {
+    console.error("AUTH ERROR:", err.message);
+    return res.status(401).json({ message: "Authentication failed" });
   }
-
-  next();
 };
 
 export const adminOnly = async (req, res, next) => {
-  const { userId } = getAuth(req);
-
-  if (!userId) {
-    return res.status(401).json({ message: "Not authenticated" });
-  }
-
   try {
+    const { userId } = getAuth(req);
+
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
     const user = await clerkClient.users.getUser(userId);
     const role = user.publicMetadata?.role;
 
@@ -34,7 +33,7 @@ export const adminOnly = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.error("CLERK ADMIN CHECK ERROR:", err);
+    console.error("ADMIN CHECK ERROR:", err.message);
     return res.status(500).json({ message: "Auth error" });
   }
 };

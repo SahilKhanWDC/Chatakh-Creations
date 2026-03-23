@@ -2,9 +2,15 @@ import { clerkMiddleware, clerkClient, getAuth } from "@clerk/express";
 
 
 export const requireAuth = async (req, res, next) => {
-  const { userId } = getAuth(req);
+  const auth = getAuth(req);
+  const { userId } = auth;
 
   if (!userId) {
+    console.error("AUTH DEBUG:", {
+      authorization: req.headers.authorization ? "present" : "missing",
+      authObjectKeys: Object.keys(auth),
+      userId: userId,
+    });
     return res.status(401).json({ message: "Not authenticated" });
   }
 

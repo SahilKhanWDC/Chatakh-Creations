@@ -107,7 +107,8 @@ const AdminDashboard = () => {
         },
       });
 
-      setImages([...images, ...res.data.imageUrls]);
+      // setImages([...images, ...res.data.imageUrls]);
+      setImages(prev => [...prev, ...res.data.imageUrls]);
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message || "Image upload failed";
       console.error("UPLOAD ERROR:", errorMsg);

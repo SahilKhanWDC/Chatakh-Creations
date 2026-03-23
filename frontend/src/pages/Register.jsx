@@ -11,7 +11,7 @@ export default function Register() {
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-white bg-clip-text text-transparent mb-2">
-              Join Shikhar
+              Join Chatakh Creations
             </h1>
             <p className="text-gray-300">Create your account and start shopping</p>
           </div>

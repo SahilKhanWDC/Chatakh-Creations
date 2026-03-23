@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAuth } from "@clerk/clerk-react";
 
 const baseURL = import.meta.env.VITE_API_URL || window.location.origin;
 const api = axios.create({
@@ -7,7 +6,7 @@ const api = axios.create({
 });
 
 // Add a request interceptor to include the Clerk token
-export const setupAxiosInterceptors = (getToken) => {
+const setupAxiosInterceptors = (getToken) => {
   api.interceptors.request.use(async (config) => {
     try {
       const token = await getToken();
@@ -21,4 +20,5 @@ export const setupAxiosInterceptors = (getToken) => {
   });
 };
 
+export { setupAxiosInterceptors };
 export default api;

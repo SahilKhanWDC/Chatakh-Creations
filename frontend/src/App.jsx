@@ -19,7 +19,13 @@ const App = () => {
   const { getToken } = useClerkAuth();
 
   useEffect(() => {
-    setupAxiosInterceptors(getToken);
+    if (getToken) {
+      try {
+        setupAxiosInterceptors(getToken);
+      } catch (err) {
+        console.error("Failed to setup axios interceptors:", err);
+      }
+    }
   }, [getToken]);
 
   return (

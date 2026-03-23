@@ -23,18 +23,11 @@ router.post(
       return res.status(400).json({ message: "No files uploaded" });
     }
     
-    const imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+    const imageUrls = req.files.map(file => file.path);
     
     res.json({
       imageUrls: imageUrls,
     });
-  },
-  (err, req, res, next) => {
-    // Error handler for multer
-    if (err) {
-      return res.status(400).json({ message: err.message });
-    }
-    next();
   }
 );
 router.get("/", getProducts);

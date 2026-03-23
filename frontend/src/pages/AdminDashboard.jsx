@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api, { setupAxiosInterceptors } from "../api/axios";
+import api from "../api/axios";
 import { useUser } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -58,24 +58,9 @@ const AdminDashboard = () => {
 
   const fetchAdminData = async () => {
     try {
-      const token = await getToken();
-      
-      if (!token) {
-        console.error("No token available for API call");
-        return;
-      }
-
       const [productsRes, ordersRes] = await Promise.all([
-        api.get("/api/products", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        api.get("/api/orders", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
+        api.get("/api/products"),
+        api.get("/api/orders"),
       ]);
 
       setProducts(productsRes.data);
@@ -96,10 +81,8 @@ const AdminDashboard = () => {
     if (!isLoaded || !isSignedIn) return;
     if (user?.publicMetadata?.role !== "admin") return;
 
-    // Ensure interceptor is set up with fresh token
-    setupAxiosInterceptors(getToken);
     fetchAdminData();
-  }, [isLoaded, isSignedIn, user, getToken]);
+  }, [isLoaded, isSignedIn, user]);
 
   if (!isLoaded) return <p>Loading...</p>;
 

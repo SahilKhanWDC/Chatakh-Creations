@@ -19,8 +19,10 @@ connectDB();
 
 const app = express();
 
+// Clerk middleware MUST come before routes
 app.use(clerkMiddleware());
 
+// CORS must come after Clerk but before routes
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
@@ -36,6 +38,7 @@ app.use(cors({
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn("CORS REJECTED ORIGIN:", origin);
       callback(new Error("CORS policy: origin not allowed"));
     }
   },
@@ -43,6 +46,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

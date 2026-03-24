@@ -13,10 +13,17 @@ const getImageUrl = (imagePath) => {
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
 
-  const total = cart.reduce(
+  const subtotal = cart.reduce(
     (sum, item) => sum + item.price * (item.qty || 1),
     0
   );
+
+  const shippingCost = cart.reduce(
+    (sum, item) => sum + (item.shippingCharge || 0),
+    0
+  );
+
+  const total = subtotal + shippingCost;
 
   if (cart.length === 0) {
     return (
@@ -105,11 +112,13 @@ const Cart = () => {
               <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-slate-700">
                 <div className="flex justify-between text-gray-400 text-xs sm:text-sm md:text-base">
                   <span>Subtotal</span>
-                  <span>₹{total}</span>
+                  <span>₹{subtotal}</span>
                 </div>
                 <div className="flex justify-between text-gray-400 text-xs sm:text-sm md:text-base">
                   <span>Shipping</span>
-                  <span className="text-blue-400 font-semibold">Free</span>
+                  <span className={shippingCost > 0 ? "text-orange-400 font-semibold" : "text-blue-400 font-semibold"}>
+                    {shippingCost > 0 ? `₹${shippingCost}` : "Free"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-gray-400 text-xs sm:text-sm md:text-base">
                   <span>Tax</span>

@@ -4,14 +4,29 @@ import { getAuth } from "@clerk/express";
 import Order from "../models/Order.js";
 
 export const createRazorpayOrder = async (req, res) => {
-  const { amount } = req.body;
+  try {
+    const { amount } = req.body;
 
-  const order = await razorpay.orders.create({
-    amount: amount * 100,
-    currency: "INR"
-  });
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ success: false, message: "Invalid amount" });
+    }
 
-  res.json(order);
+    console.log("📦 Creating Razorpay order for amount:", amount);
+
+    const order = await razorpay.orders.create({
+      amount: amount * 100, // Convert to paise
+      currency: "INR"
+    });
+
+    console.log("✅ Razorpay order created:", order.id);
+    res.json(order);
+  } catch (error) {
+    console.error("❌ CREATE RAZORPAY ORDER ERROR:", error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to create order: " + error.message 
+    });
+  }
 };
 
 
@@ -22,6 +37,8 @@ export const verifyRazorpayPayment = async (req, res) => {
       razorpay_payment_id,
       razorpay_signature,
       cart,
+      subtotal,
+      shippingCost,
       totalAmount,
       paymentMethod
     } = req.body;
@@ -68,6 +85,8 @@ export const verifyRazorpayPayment = async (req, res) => {
         quantity: item.qty || 1,
         size: item.size,
       })),
+      subtotal: subtotal || 0,
+      shippingCost: shippingCost || 0,
       totalAmount,
       paymentInfo: {
         razorpay_order_id,

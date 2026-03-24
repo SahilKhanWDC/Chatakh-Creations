@@ -6,7 +6,13 @@ import { useAuth } from "@clerk/clerk-react";
 const CheckoutButton = () => {
   const { getToken } = useAuth();
   const { cart, clearCart } = useCart();
-  const total = cart.reduce((sum, item) => sum + item.price * (item.qty || 1), 0);
+  
+  const subtotal = cart.reduce((sum, item) => sum + item.price * (item.qty || 1), 0);
+  const shippingCost = cart.reduce(
+    (sum, item) => sum + (item.shippingCharge || 0),
+    0
+  );
+  const total = subtotal + shippingCost;
   const [address, setAddress] = useState({
   fullName: "",
   address: "",
@@ -26,20 +32,23 @@ const CheckoutButton = () => {
         return;
       }
 
-      const token = await getToken();
+      console.log("💳 Initiating payment for amount:", total);
 
-      const { data } = await api.post(
-        "/api/payment/create",
-        { amount: total },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // Use interceptor - no need to pass token manually
+      const { data } = await api.post("/api/payment/create", { amount: total });
+
+      console.log("📦 Razorpay order created:", data);
 
       if (!data.id) {
-        alert("Invalid Razorpay order ID");
+        alert("Invalid Razorpay order ID - " + (data.message || "Unknown error"));
+        console.error("Invalid order response:", data);
+        return;
+      }
+
+      // Check if Razorpay is loaded
+      if (!window.Razorpay) {
+        alert("Razorpay not loaded. Please refresh the page.");
+        console.error("Razorpay SDK not found");
         return;
       }
 
@@ -49,6 +58,7 @@ const CheckoutButton = () => {
         currency: "INR",
         order_id: data.id,
         name: "Shikhar Clothing",
+        description: `Payment for ${cart.length} item(s)`,
 
         method: {
           upi: true,
@@ -59,42 +69,46 @@ const CheckoutButton = () => {
 
         handler: async (response) => {
           try {
-            const verify = await api.post(
-              "/api/payment/verify",
-              {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                cart,
-                totalAmount: total,
-                shippingAddress : address,
-                paymentMethod: response.method || "Unknown"
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+            console.log("✅ Payment successful, verifying...", response);
+
+            const verify = await api.post("/api/payment/verify", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              cart,
+              subtotal: subtotal,
+              shippingCost: shippingCost,
+              totalAmount: total,
+              shippingAddress: address,
+              paymentMethod: response.method || "Unknown"
+            });
+
+            console.log("✅ Verification response:", verify.data);
 
             if (verify.data.success) {
-              alert("Order placed successfully");
+              alert("✅ Order placed successfully!");
               clearCart();
             } else {
-              alert("Verification failed: " + (verify.data.message || "Unknown error"));
+              alert("❌ Verification failed: " + (verify.data.message || "Unknown error"));
             }
           } catch (err) {
-            console.error("Verification error:", err);
-            alert("Verification error: " + (err.response?.data?.message || err.message));
+            console.error("❌ Verification error:", err);
+            alert("❌ Verification error: " + (err.response?.data?.message || err.message));
           }
         },
+
+        prefill: {
+          name: address.fullName,
+          contact: address.phone
+        }
       };
 
+      console.log("🎯 Opening Razorpay with options:", options);
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
-      console.error(err);
-      alert("Payment init failed");
+      console.error("❌ Payment initialization error:", err);
+      alert("❌ Payment initialization failed: " + (err.response?.data?.message || err.message));
     }
   };
 

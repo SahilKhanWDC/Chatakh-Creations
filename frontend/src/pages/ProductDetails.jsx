@@ -142,6 +142,16 @@ const ProductDetails = () => {
               <div className="mb-6 sm:mb-8">
                 <p className="text-gray-400 text-xs sm:text-sm mb-2">Price</p>
                 <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-400">₹{product.price}</p>
+                {product.shippingCharge > 0 && (
+                  <p className="text-orange-400 text-sm sm:text-base mt-2 font-semibold">
+                    + Shipping: ₹{product.shippingCharge}
+                  </p>
+                )}
+                {product.shippingCharge === 0 && (
+                  <p className="text-green-400 text-sm sm:text-base mt-2 font-semibold">
+                    Free Shipping
+                  </p>
+                )}
               </div>
 
               {/* SIZE SELECT */}

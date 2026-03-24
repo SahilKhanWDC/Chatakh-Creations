@@ -233,6 +233,33 @@ const MyOrders = () => {
                   </div>
                 </div>
 
+                {/* PRICING BREAKDOWN */}
+                {(order.subtotal || order.shippingCost) && (
+                  <div className="bg-slate-700/30 rounded-lg p-4 mb-6 border border-slate-700">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Pricing Breakdown</p>
+                    <div className="space-y-2 text-sm">
+                      {order.subtotal > 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-300">Subtotal</span>
+                          <span className="text-white font-semibold">₹{order.subtotal}</span>
+                        </div>
+                      )}
+                      {order.shippingCost > 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-300">Shipping Cost</span>
+                          <span className="text-orange-400 font-semibold">₹{order.shippingCost}</span>
+                        </div>
+                      )}
+                      {order.shippingCost === 0 && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-300">Shipping Cost</span>
+                          <span className="text-green-400 font-semibold">Free</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* ACTION BUTTONS */}
                 <div className="flex flex-col md:flex-row gap-3">
                   {order.orderStatus === "Placed" && (

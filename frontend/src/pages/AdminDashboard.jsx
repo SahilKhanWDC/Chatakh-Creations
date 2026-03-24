@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     description: "",
     price: "",
     stock: "",
+    shippingCharge: "",
     category: "",
     subcategory: "",
   });
@@ -200,6 +201,7 @@ const AdminDashboard = () => {
           ...form,
           price: Number(form.price),
           stock: Number(form.stock),
+          shippingCharge: Number(form.shippingCharge) || 0,
           sizes: ["S", "M", "L", "XL"],
           images: images,
         }
@@ -212,6 +214,7 @@ const AdminDashboard = () => {
         description: "",
         price: "",
         stock: "",
+        shippingCharge: "",
         category: "",
         subcategory: "",
       });
@@ -230,6 +233,7 @@ const AdminDashboard = () => {
       description: p.description,
       price: p.price,
       stock: p.stock,
+      shippingCharge: p.shippingCharge || "",
       category: p.category,
       subcategory: p.subcategory || "",
     });
@@ -249,6 +253,7 @@ const AdminDashboard = () => {
           ...form,
           price: Number(form.price),
           stock: Number(form.stock),
+          shippingCharge: Number(form.shippingCharge) || 0,
           images: images,
         }
       );
@@ -260,6 +265,7 @@ const AdminDashboard = () => {
         description: "",
         price: "",
         stock: "",
+        shippingCharge: "",
         category: "",
         subcategory: "",
       });
@@ -371,6 +377,13 @@ const AdminDashboard = () => {
               value={form.stock}
               onChange={(e) => setForm({ ...form, stock: e.target.value })}
             />
+            <input
+              className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
+              placeholder="Shipping Charge (₹)"
+              type="number"
+              value={form.shippingCharge}
+              onChange={(e) => setForm({ ...form, shippingCharge: e.target.value })}
+            />
             <select
               className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
               value={form.category}
@@ -478,6 +491,13 @@ const AdminDashboard = () => {
                 type="number"
                 value={form.stock}
                 onChange={(e) => setForm({ ...form, stock: e.target.value })}
+              />
+              <input
+                className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
+                placeholder="Shipping Charge (₹)"
+                type="number"
+                value={form.shippingCharge}
+                onChange={(e) => setForm({ ...form, shippingCharge: e.target.value })}
               />
               <select
                 className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"

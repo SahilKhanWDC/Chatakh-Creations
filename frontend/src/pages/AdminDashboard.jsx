@@ -52,9 +52,10 @@ const AdminDashboard = () => {
     ],
   };
 
-  // useEffect(() => {
-  //   setupAxiosInterceptors(getToken);
-  // }, [getToken]);
+  // Setup axios interceptor once when component mounts or token changes
+  useEffect(() => {
+    setupAxiosInterceptors(getToken);
+  }, [getToken]);
 
   const fetchAdminData = async () => {
     try {
@@ -100,13 +101,6 @@ const AdminDashboard = () => {
         return;
       }
 
-      const token = await getToken();
-      
-      if (!token) {
-        alert("Authentication token not found. Please ensure you're logged in as an admin.");
-        return;
-      }
-
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append("images", files[i]);
@@ -114,11 +108,12 @@ const AdminDashboard = () => {
 
       const res = await api.post("/api/products/upload", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
       setImages(prev => [...prev, ...res.data.imageUrls]);
+      alert("Images uploaded successfully!");
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message || "Image upload failed";
       console.error("UPLOAD ERROR DETAILS:", {
@@ -143,8 +138,6 @@ const AdminDashboard = () => {
     }
 
     try {
-      const token = await getToken();
-
       const { data } = await api.post(
         "/api/products",
         {
@@ -153,14 +146,10 @@ const AdminDashboard = () => {
           stock: Number(form.stock),
           sizes: ["S", "M", "L", "XL"],
           images: images,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 
+      alert("Product created successfully!");
       await fetchAdminData();
       setForm({
         name: "",
@@ -173,7 +162,7 @@ const AdminDashboard = () => {
       setImages([]);
     } catch (err) {
       console.error("CREATE PRODUCT ERROR:", err.response?.data || err.message);
-      alert("Product creation failed");
+      alert(err.response?.data?.message || "Product creation failed");
     }
   };
 
@@ -197,73 +186,70 @@ const AdminDashboard = () => {
       return;
     }
 
-    const token = await getToken();
+    try {
+      await api.put(
+        `/api/products/${editing}`,
+        {
+          ...form,
+          price: Number(form.price),
+          stock: Number(form.stock),
+          images: images,
+        }
+      );
 
-    await api.put(
-      `/api/products/${editing}`,
-      {
-        ...form,
-        price: Number(form.price),
-        stock: Number(form.stock),
-        images: images,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    setEditing(null);
-    setForm({
-      name: "",
-      description: "",
-      price: "",
-      stock: "",
-      category: "",
-      subcategory: "",
-    });
-    setImages([]);
-    await fetchAdminData();
+      alert("Product updated successfully!");
+      setEditing(null);
+      setForm({
+        name: "",
+        description: "",
+        price: "",
+        stock: "",
+        category: "",
+        subcategory: "",
+      });
+      setImages([]);
+      await fetchAdminData();
+    } catch (err) {
+      console.error("UPDATE ERROR:", err);
+      alert(err.response?.data?.message || "Product update failed");
+    }
   };
 
   /* ---------------- DELETE PRODUCT ---------------- */
   const remove = async (id) => {
     if (!window.confirm("Delete this product?")) return;
 
-    const token = await getToken();
-
-    await api.delete(`/api/products/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    await fetchAdminData();
+    try {
+      await api.delete(`/api/products/${id}`);
+      alert("Product deleted successfully!");
+      await fetchAdminData();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+      alert(err.response?.data?.message || "Product deletion failed");
+    }
   };
 
   /* ---------------- UPDATE ORDER STATUS ---------------- */
   const updateStatus = async (orderId, status) => {
-    const token = await getToken();
-
-    await api.put(
-      `/api/orders/${orderId}/status`,
-      { status },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    await fetchAdminData();
+    try {
+      await api.put(
+        `/api/orders/${orderId}/status`,
+        { status }
+      );
+      alert("Order status updated successfully!");
+      await fetchAdminData();
+    } catch (err) {
+      console.error("UPDATE STATUS ERROR:", err);
+      alert(err.response?.data?.message || "Order status update failed");
+    }
   };
 
   /* ---------------- APPROVE RETURN ---------------- */
   const approveReturn = async (orderId) => {
-    const token = await getToken();
-
     try {
       await api.put(
         `/api/orders/${orderId}/approve-return`,
-        { refundStatus: "Processed" },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { refundStatus: "Processed" }
       );
 
       alert("Return request approved successfully");
@@ -275,15 +261,10 @@ const AdminDashboard = () => {
 
   /* ---------------- REJECT RETURN ---------------- */
   const rejectReturn = async (orderId) => {
-    const token = await getToken();
-
     try {
       await api.put(
         `/api/orders/${orderId}/reject-return`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        {}
       );
 
       alert("Return request rejected successfully");

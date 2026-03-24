@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import { razorpayWebhook } from "./controllers/paymentController.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -45,6 +46,8 @@ app.use(cors({
 }));
 
 // 2. BODY PARSERS NEXT (Increased limits to prevent payload crashes)
+app.post("/api/payment/webhook", express.raw({ type: "application/json" }), razorpayWebhook);
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
@@ -70,7 +73,7 @@ app.use((err, req, res, next) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`✅ Server running on port ${process.env.PORT}`);
-  
+
   // Startup verification
   console.log("\n🔍 STARTUP CONFIGURATION CHECK:");
   console.log("  ✓ Clerk Secret Key:", process.env.CLERK_SECRET_KEY ? "✅ SET" : "❌ MISSING");

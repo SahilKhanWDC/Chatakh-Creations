@@ -13,7 +13,7 @@ const CheckoutButton = () => {
     0
   );
   const total = subtotal + shippingCost;
-  const [address, setAddress] = useState({
+const [address, setAddress] = useState({
   fullName: "",
   address: "",
   city: "",
@@ -21,17 +21,20 @@ const CheckoutButton = () => {
   pincode: "",
   phone: "",
 });
-
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState(null);
 
 
   const payNow = async () => {
     try {
+      setError(null);
       // Validate address
       if (!address.fullName || !address.address || !address.city || !address.state || !address.pincode || !address.phone) {
-        alert("Please fill all address fields");
+        setError("Please fill all address fields");
         return;
       }
 
+      setIsLoading(true);
       console.log("💳 Initiating payment for amount:", total);
 
       // Use interceptor - no need to pass token manually
@@ -40,15 +43,17 @@ const CheckoutButton = () => {
       console.log("📦 Razorpay order created:", data);
 
       if (!data.id) {
-        alert("Invalid Razorpay order ID - " + (data.message || "Unknown error"));
+        setError("Invalid Razorpay order ID - " + (data.message || "Unknown error"));
         console.error("Invalid order response:", data);
+        setIsLoading(false);
         return;
       }
 
       // Check if Razorpay is loaded
       if (!window.Razorpay) {
-        alert("Razorpay not loaded. Please refresh the page.");
+        setError("Razorpay not loaded. Please refresh the page.");
         console.error("Razorpay SDK not found");
+        setIsLoading(false);
         return;
       }
 
@@ -86,17 +91,24 @@ const CheckoutButton = () => {
             console.log("✅ Verification response:", verify.data);
 
             if (verify.data.success) {
-              alert("✅ Order placed successfully!");
               clearCart();
+              window.location.href = "/my-orders"; // Better UX redirect
             } else {
-              alert("❌ Verification failed: " + (verify.data.message || "Unknown error"));
+              setError("Verification failed: " + (verify.data.message || "Unknown error"));
+              setIsLoading(false);
             }
           } catch (err) {
             console.error("❌ Verification error:", err);
-            alert("❌ Verification error: " + (err.response?.data?.message || err.message));
+            setError("Verification error: " + (err.response?.data?.message || err.message));
+            setIsLoading(false);
           }
         },
-
+        modal: {
+          ondismiss: function () {
+            console.log("Payment wizard closed by user");
+            setIsLoading(false);
+          }
+        },
         prefill: {
           name: address.fullName,
           contact: address.phone
@@ -105,10 +117,16 @@ const CheckoutButton = () => {
 
       console.log("🎯 Opening Razorpay with options:", options);
       const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+          console.error("❌ Payment failed:", response.error.description);
+          setError("Payment failed: " + response.error.description);
+          setIsLoading(false);
+      });
       rzp.open();
     } catch (err) {
       console.error("❌ Payment initialization error:", err);
-      alert("❌ Payment initialization failed: " + (err.response?.data?.message || err.message));
+      setError("Payment initialization failed: " + (err.response?.data?.message || err.message));
+      setIsLoading(false);
     }
   };
 
@@ -172,11 +190,29 @@ const CheckoutButton = () => {
           />
         </div>
       </div>
+      
+      {error && (
+        <div className="bg-red-50 text-red-600 rounded-xl p-4 mb-4 border border-red-200 text-sm">
+          {error}
+        </div>
+      )}
+
       <button 
         onClick={payNow}
-        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 rounded-xl font-semibold shadow-lg shadow-blue-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+        disabled={isLoading}
+        className={`w-full ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'} text-white py-4 rounded-xl font-semibold shadow-lg shadow-blue-400/50 hover:shadow-xl transition-all duration-300 transform ${isLoading ? '' : 'hover:scale-105'}`}
       >
-        Pay ₹{total}
+        {isLoading ? (
+          <span className="flex items-center justify-center">
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Processing...
+          </span>
+        ) : (
+          `Pay ₹${total}`
+        )}
       </button>
     </div>
   );

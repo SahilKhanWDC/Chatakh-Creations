@@ -306,6 +306,19 @@ const AdminDashboard = () => {
     }
   };
 
+  /* ---------------- DELETE ORDER ---------------- */
+  const deleteOrder = async (orderId) => {
+    if (!window.confirm("Delete this order? This action cannot be undone.")) return;
+    try {
+      await api.delete(`/api/orders/${orderId}`);
+      alert("Order deleted successfully!");
+      await fetchAdminData();
+    } catch (err) {
+      console.error("DELETE ORDER ERROR:", err);
+      alert(err.response?.data?.message || "Order deletion failed");
+    }
+  };
+
   /* ---------------- APPROVE RETURN ---------------- */
   const approveReturn = async (orderId) => {
     try {
@@ -690,14 +703,14 @@ const AdminDashboard = () => {
                           🔄 Return: {o.returnRequest.status}
                         </span>
                       )}
-                      <div className="w-full md:w-auto">
+                      <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2">
                         {o.orderStatus === "Cancelled" ? (
-                          <span className="inline-block bg-red-200 text-red-800 px-6 py-2 rounded-full font-semibold">
+                          <span className="inline-block bg-red-200 text-red-800 px-6 py-2 rounded-full font-semibold h-fit">
                             ❌ CANCELLED
                           </span>
                         ) : (
                           <select
-                          className="w-full md:w-auto border-2 border-gray-300 rounded-xl px-4 py-2 font-semibold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors duration-300"
+                          className="w-full sm:w-auto border-2 border-gray-300 rounded-xl px-4 py-2 font-semibold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors duration-300 h-fit"
                             value={o.orderStatus}
                             onChange={(e) => updateStatus(o._id, e.target.value)}
                           >
@@ -706,6 +719,13 @@ const AdminDashboard = () => {
                             <option value="Delivered">✅ Delivered</option>
                           </select>
                         )}
+                        <button
+                          onClick={() => deleteOrder(o._id)}
+                          className="px-4 py-2 bg-red-100 text-red-600 font-bold rounded-xl hover:bg-red-200 transition-colors border border-red-200 flex items-center justify-center gap-1 h-fit"
+                          title="Delete Order"
+                        >
+                          <span>🗑️</span> Delete
+                        </button>
                       </div>
                     </div>
                   </div>

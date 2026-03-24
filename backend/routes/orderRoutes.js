@@ -8,6 +8,7 @@ import {
   requestReturn,
   approveReturn,
   rejectReturn,
+  deleteOrder,
 } from "../controllers/orderController.js";
 
 import { requireAuth, adminOnly } from "../middlewares/clerkAuth.js";
@@ -23,6 +24,9 @@ router.get("/my-orders", requireAuth, getMyOrders);
 
 // Get all orders
 router.get("/", requireAuth, adminOnly, getOrders);
+
+// Delete an order (admin only)
+router.delete("/:id", requireAuth, adminOnly, deleteOrder);
 
 // Update order status
 router.put("/:id/status", requireAuth, adminOnly, updateOrderStatus);

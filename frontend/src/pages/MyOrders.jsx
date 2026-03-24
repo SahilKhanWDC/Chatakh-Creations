@@ -284,7 +284,7 @@ const MyOrders = () => {
 
                 {/* ACTION BUTTONS */}
                 <div className="flex flex-col md:flex-row gap-3">
-                  {order.orderStatus === "Placed" && (
+                  {order.orderStatus !== "Cancelled" && (
                     <button
                       onClick={() => handleCancelOrder(order._id)}
                       className="flex-1 md:flex-none px-6 py-3 bg-red-500/20 text-red-400 font-bold rounded-lg hover:bg-red-500/30 transition-all duration-300 shadow-md hover:shadow-lg border border-red-500/50"
@@ -293,7 +293,7 @@ const MyOrders = () => {
                     </button>
                   )}
                   
-                  {order.orderStatus === "Delivered" && (!order.returnRequest || order.returnRequest.status === "None") && (
+                  {order.orderStatus !== "Cancelled" && (!order.returnRequest || order.returnRequest.status === "None") && (
                     <button
                       onClick={() => handleReturnClick(order._id)}
                       className="flex-1 md:flex-none px-6 py-3 bg-purple-500/20 text-purple-400 font-bold rounded-lg hover:bg-purple-500/30 transition-all duration-300 shadow-md hover:shadow-lg border border-purple-500/50"

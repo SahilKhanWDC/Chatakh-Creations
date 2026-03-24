@@ -12,26 +12,17 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyOrders from "./pages/MyOrders";
-import api from "./api/axios";
+import api, { setupAxiosInterceptors } from "./api/axios";
 import "./App.css"
 
 const App = () => {
   const { getToken } = useClerkAuth();
 
   useEffect(() => {
-    // Setup axios interceptor inline to avoid import/export issues
+    // Setup axios interceptor when getToken is available
     if (getToken) {
-      api.interceptors.request.use(async (config) => {
-        try {
-          const token = await getToken();
-          if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-        } catch (err) {
-          console.error("Error getting token:", err);
-        }
-        return config;
-      });
+      console.log("✅ App.jsx: Setting up axios interceptors");
+      setupAxiosInterceptors(getToken);
     }
   }, [getToken]);
 

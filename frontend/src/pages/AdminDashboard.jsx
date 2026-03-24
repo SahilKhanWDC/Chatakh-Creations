@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api, { setupAxiosInterceptors } from "../api/axios";
+import api, { setupAxiosInterceptors, makeAuthenticatedRequest } from "../api/axios";
 import { useUser } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/clerk-react";
 
@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   const { user, isLoaded, isSignedIn } = useUser();
   const [images, setImages] = useState([]);
   const [loadError, setLoadError] = useState(null);
-  // const token = await getToken();
+  const [interceptorReady, setInterceptorReady] = useState(false);
 
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
@@ -52,38 +52,73 @@ const AdminDashboard = () => {
     ],
   };
 
-  // Setup axios interceptor once when component mounts or token changes
+  // Setup interceptor when getToken is available
   useEffect(() => {
-    setupAxiosInterceptors(getToken);
+    if (getToken) {
+      setupAxiosInterceptors(getToken);
+      setInterceptorReady(true);
+      console.log("✅ AdminDashboard: Interceptor setup complete");
+    }
   }, [getToken]);
 
   const fetchAdminData = async () => {
     try {
-      const [productsRes, ordersRes] = await Promise.all([
-        api.get("/api/products"),
-        api.get("/api/orders"),
-      ]);
+      console.log("🔄 Fetching admin data...");
+      
+      // Use the interceptor if ready, otherwise use makeAuthenticatedRequest
+      let productsRes, ordersRes;
+      
+      if (interceptorReady) {
+        // Interceptor ready - use normal api calls
+        [productsRes, ordersRes] = await Promise.all([
+          api.get("/api/products"),
+          api.get("/api/orders"),
+        ]);
+      } else {
+        // Interceptor not ready yet - use authenticated request manually
+        console.warn("⚠️ Interceptor not ready, using direct token injection");
+        [productsRes, ordersRes] = await Promise.all([
+          makeAuthenticatedRequest("get", "/api/products", null, getToken),
+          makeAuthenticatedRequest("get", "/api/orders", null, getToken),
+        ]);
+      }
 
       setProducts(productsRes.data);
       setOrders(ordersRes.data);
       setLoadError(null);
+      console.log("✅ Admin data loaded successfully");
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message;
       setLoadError(errorMsg);
-      console.error("DATA FETCH ERROR:", {
+      console.error("❌ DATA FETCH ERROR:", {
         status: err.response?.status,
         message: errorMsg,
         endpoint: err.response?.config?.url,
+        full: err,
       });
     }
   };
 
+  // Fetch data when user is authenticated, signed in, is admin, AND interceptor is ready
   useEffect(() => {
-    if (!isLoaded || !isSignedIn) return;
-    if (user?.publicMetadata?.role !== "admin") return;
+    if (!isLoaded || !isSignedIn) {
+      console.log("⏳ Waiting for Clerk authentication...");
+      return;
+    }
+    
+    if (user?.publicMetadata?.role !== "admin") {
+      console.log("⚠️ User is not an admin");
+      return;
+    }
 
+    if (!interceptorReady) {
+      console.log("⏳ Waiting for interceptor to be ready...");
+      return;
+    }
+
+    console.log("✅ All conditions met, fetching admin data");
     fetchAdminData();
-  }, [isLoaded, isSignedIn, user]);
+  }, [isLoaded, isSignedIn, user, interceptorReady]);
 
   if (!isLoaded) return <p>Loading...</p>;
 

@@ -68,7 +68,15 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message || "Internal server error" });
 });
 
-
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on port ${process.env.PORT}`)
-);
+app.listen(process.env.PORT, () => {
+  console.log(`✅ Server running on port ${process.env.PORT}`);
+  
+  // Startup verification
+  console.log("\n🔍 STARTUP CONFIGURATION CHECK:");
+  console.log("  ✓ Clerk Secret Key:", process.env.CLERK_SECRET_KEY ? "✅ SET" : "❌ MISSING");
+  console.log("  ✓ MongoDB URI:", process.env.MONGO_URI ? "✅ SET" : "❌ MISSING");
+  console.log("  ✓ Cloudinary Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "✅ SET" : "❌ MISSING");
+  console.log("  ✓ Cloudinary API Key:", process.env.CLOUDINARY_API_KEY ? "✅ SET" : "❌ MISSING");
+  console.log("  ✓ Razorpay Key ID:", process.env.RAZORPAY_KEY_ID ? "✅ SET" : "❌ MISSING");
+  console.log("\n");
+});

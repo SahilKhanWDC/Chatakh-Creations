@@ -131,6 +131,16 @@ const AdminDashboard = () => {
   /* ---------------- IMAGE UPLOAD ---------------- */
   const uploadImages = async (files) => {
     try {
+      console.log("📸 Starting image upload...", {
+        fileCount: files.length,
+        currentImages: images.length
+      });
+
+      if (files.length === 0) {
+        console.warn("⚠️ No files selected");
+        return;
+      }
+
       if (images.length + files.length > 8) {
         alert(`Maximum 8 images allowed. You have ${images.length} images already.`);
         return;
@@ -141,22 +151,33 @@ const AdminDashboard = () => {
         formData.append("images", files[i]);
       }
 
+      console.log("📤 Uploading to /api/products/upload...");
       const res = await api.post("/api/products/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
+      console.log("✅ Upload response received:", res.data);
+
+      if (!res.data || !res.data.imageUrls) {
+        console.error("❌ Invalid response format:", res.data);
+        alert("Upload failed: Invalid response from server");
+        return;
+      }
+
       setImages(prev => [...prev, ...res.data.imageUrls]);
-      alert("Images uploaded successfully!");
+      console.log("✅ Images added to state:", res.data.imageUrls);
+      alert(`✅ ${files.length} image(s) uploaded successfully!`);
     } catch (error) {
       const errorMsg = error.response?.data?.message || error.message || "Image upload failed";
-      console.error("UPLOAD ERROR DETAILS:", {
+      console.error("❌ UPLOAD ERROR DETAILS:", {
         status: error.response?.status,
         message: errorMsg,
+        responseData: error.response?.data,
         fullError: error
       });
-      alert(errorMsg);
+      alert(`Upload failed: ${errorMsg}`);
     }
   };
 

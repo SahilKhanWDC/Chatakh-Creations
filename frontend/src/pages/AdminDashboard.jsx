@@ -590,7 +590,7 @@ const AdminDashboard = () => {
                       <img
                         src={
                           p.images && p.images.length > 0
-                            ? `${VITE_API_URL}${p.images[0]}`
+                            ? p.images[0].startsWith('http') ? p.images[0] : `${VITE_API_URL}${p.images[0]}`
                             : "/placeholder.png"
                         }
                         alt={p.name}

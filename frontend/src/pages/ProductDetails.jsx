@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { useCart } from "../context/CartContext";
 
-const VITE_API_URL = "http://localhost:5000";
+// Helper to get correct image URL - Cloudinary URLs are full URLs
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return "/placeholder.png";
+  if (imagePath.startsWith('http')) return imagePath;
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  return `${apiUrl}${imagePath}`;
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -54,7 +60,7 @@ const ProductDetails = () => {
               <img
                 src={
                   product.images && product.images.length > 0
-                    ? `${VITE_API_URL}${product.images[selectedImageIndex]}`
+                    ? getImageUrl(product.images[selectedImageIndex])
                     : "/placeholder.png"
                 }
                 alt={product.name}
@@ -109,7 +115,7 @@ const ProductDetails = () => {
                     }`}
                   >
                     <img
-                      src={`${VITE_API_URL}${image}`}
+                      src={getImageUrl(image)}
                       alt={`${product.name} ${index + 1}`}
                       className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                     />

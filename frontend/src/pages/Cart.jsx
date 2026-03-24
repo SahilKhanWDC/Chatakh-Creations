@@ -2,7 +2,13 @@ import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import CheckoutButton from "../components/CheckoutButton";
 
-const VITE_API_URL = "http://localhost:5000";
+// Helper to get correct image URL - Cloudinary URLs are full URLs
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  return `${apiUrl}${imagePath}`;
+};
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
@@ -53,7 +59,7 @@ const Cart = () => {
                   <img
                     src={
                       item.images && item.images.length > 0
-                        ? `${VITE_API_URL}${item.images[0]}`
+                        ? getImageUrl(item.images[0])
                         : "/placeholder.png"
                     }
                     alt={item.name}

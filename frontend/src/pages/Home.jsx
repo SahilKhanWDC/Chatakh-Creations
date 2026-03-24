@@ -2,7 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 
-const VITE_API_URL = "http://localhost:5000";
+// Helper to get correct image URL - Cloudinary URLs are full URLs
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  return `${apiUrl}${imagePath}`;
+};
 
 const Home = () => {
   const navigate = useNavigate();
@@ -84,7 +90,7 @@ const Home = () => {
                       <img
                         src={
                           product.images && product.images.length > 0
-                            ? `${VITE_API_URL}${product.images[0]}`
+                            ? getImageUrl(product.images[0])
                             : "/placeholder.png"
                         }
                         alt={product.name}

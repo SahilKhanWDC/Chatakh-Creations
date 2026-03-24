@@ -1,15 +1,27 @@
 import { useNavigate } from "react-router-dom";
 
-const VITE_API_URL = "http://localhost:5000";
-
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   if (!product) return null;
 
+  // Handle image URL - Cloudinary URLs are full URLs, local URLs need API prefix
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    
+    // If it's already a full URL (starts with http), use it directly
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // Otherwise prepend the API URL
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    return `${apiUrl}${imagePath}`;
+  };
+
   const imageUrl =
     product.images && product.images.length > 0
-      ? `${VITE_API_URL}${product.images[0]}`
+      ? getImageUrl(product.images[0])
       : null;
 
   return (
@@ -21,6 +33,7 @@ const ProductCard = ({ product }) => {
             src={imageUrl}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            onError={(e) => console.error("Image failed to load:", imageUrl)}
           />
         )}
         {/* OVERLAY */}

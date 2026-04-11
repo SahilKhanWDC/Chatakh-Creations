@@ -12,7 +12,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-50 bg-[#fff6e9] border-b border-pink-200 shadow-sm">
       <nav className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-3 flex justify-between items-center">
         {/* LOGO */}
         <Link 
@@ -20,9 +20,9 @@ const Navbar = () => {
           className="hover:opacity-80 transition-opacity duration-300 flex-shrink-0"
         >
           <img 
-            src="/logo.png" 
+            src="/logofinn.png" 
             alt="Chatakh Creations" 
-            className="h-16 sm:h-20 md:h-24 w-auto -my-2 sm:-my-3 md:-my-4"
+            className="h-6 sm:h-10 md:h-12 w-auto"
           />
         </Link>
 
@@ -30,32 +30,32 @@ const Navbar = () => {
         <div className="hidden md:flex gap-6 lg:gap-8 items-center">
           <Link 
             to="/collections" 
-            className="text-gray-700 font-medium hover:text-slate-900 transition-colors duration-200 relative group text-sm lg:text-base"
+            className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 relative group text-sm lg:text-base tracking-wide"
           >
             Collections
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-slate-900 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#ec0080] group-hover:w-full transition-all duration-300"></span>
           </Link>
           <Link 
             to="/cart" 
-            className="text-gray-700 font-medium hover:text-slate-900 transition-colors duration-200 relative group text-sm lg:text-base"
+            className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 relative group text-sm lg:text-base tracking-wide"
           >
             Cart
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-slate-900 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#ec0080] group-hover:w-full transition-all duration-300"></span>
           </Link>
 
           <SignedIn>
             <Link 
               to="/my-orders" 
-              className="text-gray-700 font-medium hover:text-slate-900 transition-colors duration-200 relative group text-sm lg:text-base"
+              className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 relative group text-sm lg:text-base tracking-wide"
             >
               Orders
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-slate-900 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#ec0080] group-hover:w-full transition-all duration-300"></span>
             </Link>
 
             {user?.publicMetadata?.role === "admin" && (
               <Link 
                 to="/admin" 
-                className="text-amber-600 font-semibold hover:text-amber-700 transition-colors duration-200 px-3 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-sm lg:text-base"
+                className="text-[#fff6e9] font-semibold hover:opacity-90 transition-colors duration-200 px-3 py-1 rounded-lg bg-[#ec0080] text-sm lg:text-base"
               >
                 Admin Panel
               </Link>
@@ -69,14 +69,14 @@ const Navbar = () => {
           <SignedOut>
             <Link 
               to="/login" 
-              className="text-gray-700 font-medium hover:text-slate-900 transition-colors duration-200 text-sm lg:text-base"
+              className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 text-sm lg:text-base tracking-wide"
             >
               Login
             </Link>
             <Link 
               to="/register" 
-              className="px-4 lg:px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg text-sm lg:text-base"
-            >
+              className="px-4 lg:px-6 py-2 bg-pink-500 text-[#fff6e9] font-medium rounded-lg hover:bg-[#00aeb2] transition-all duration-200 shadow-md hover:shadow-lg text-sm lg:text-base"
+            > 
               Sign Up
             </Link>
           </SignedOut>
@@ -103,18 +103,18 @@ const Navbar = () => {
 
       {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-gray-50 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden border-t border-pink-200 bg-[#fff6e9] animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
             <Link 
               to="/collections" 
-              className="text-gray-700 font-medium hover:text-slate-900 py-3 px-3 rounded-lg hover:bg-white transition-colors duration-200 text-base"
+              className="text-gray-800 font-medium hover:text-[#ec0080] py-3 px-3 rounded-lg hover:bg-[#fce4f3] transition-colors duration-200 text-base"
               onClick={() => setMobileMenuOpen(false)}
             >
               Collections
             </Link>
             <Link 
               to="/cart" 
-              className="text-gray-700 font-medium hover:text-slate-900 py-3 px-3 rounded-lg hover:bg-white transition-colors duration-200 text-base"
+              className="text-gray-800 font-medium hover:text-[#ec0080] py-3 px-3 rounded-lg hover:bg-[#fce4f3] transition-colors duration-200 text-base"
               onClick={() => setMobileMenuOpen(false)}
             >
               Cart
@@ -122,7 +122,7 @@ const Navbar = () => {
             <SignedIn>
               <Link 
                 to="/my-orders" 
-                className="text-gray-700 font-medium hover:text-slate-900 py-3 px-3 rounded-lg hover:bg-white transition-colors duration-200 text-base"
+                className="text-gray-800 font-medium hover:text-[#ec0080] py-3 px-3 rounded-lg hover:bg-[#fce4f3] transition-colors duration-200 text-base"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 My Orders
@@ -130,7 +130,7 @@ const Navbar = () => {
               {user?.publicMetadata?.role === "admin" && (
                 <Link 
                   to="/admin" 
-                  className="text-amber-600 font-semibold py-3 px-3 rounded-lg bg-amber-50 hover:bg-amber-100 transition-colors duration-200 text-base"
+                  className="text-[#fff6e9] font-semibold py-3 px-3 rounded-lg bg-[#ec0080] hover:bg-[#c4006a] transition-colors duration-200 text-base"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Admin Panel
@@ -140,14 +140,14 @@ const Navbar = () => {
             <SignedOut>
               <Link 
                 to="/login" 
-                className="text-gray-700 font-medium py-3 px-3 rounded-lg hover:bg-white transition-colors duration-200 text-base"
+                className="text-gray-800 font-medium py-3 px-3 rounded-lg hover:bg-[#fce4f3] hover:text-[#ec0080] transition-colors duration-200 text-base"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Login
               </Link>
               <Link 
                 to="/register" 
-                className="text-white font-medium py-3 px-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-colors duration-200 text-base text-center"
+                className="text-[#fff6e9] font-medium py-3 px-3 rounded-lg bg-[#ec0080] hover:bg-[#c4006a] transition-colors duration-200 text-base text-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign Up

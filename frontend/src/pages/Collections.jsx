@@ -89,7 +89,7 @@ const Collections = () => {
   return (
     <div className="min-h-screen bg-slate-950 w-full">
       {/* HEADER */}
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
+      <div className="bg-gradient-to-br from-pink-700 to-pink-500 text-[#fff6e9] py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3">Collections</h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
@@ -110,7 +110,7 @@ const Collections = () => {
               }}
               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 ${
                 filter === c.value
-                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-400/50 scale-105"
+                  ? "bg-[#00aeb2] text-[#fff6e9] shadow-lg shadow-blue-400/50 scale-105"
                   : "bg-slate-800 text-gray-300 border border-slate-700 hover:border-blue-400 hover:shadow-md"
               }`}
             >
@@ -128,8 +128,8 @@ const Collections = () => {
                 onClick={() => setSubcategory(sub.value)}
                 className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   subcategory === sub.value
-                    ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-400/50"
-                    : "bg-slate-800 text-gray-400 border border-slate-700 hover:border-purple-400 hover:shadow-md"
+                    ? "bg-[#fbad17] text-[#fff6e9] shadow-lg shadow-[#fbad17]/50"
+                    : "bg-slate-800 text-gray-400 border border-slate-700 hover:border-[#fbad17] hover:shadow-md"
                 }`}
               >
                 {sub.label}

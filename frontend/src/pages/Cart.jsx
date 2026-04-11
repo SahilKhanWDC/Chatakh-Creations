@@ -35,7 +35,7 @@ const Cart = () => {
           </p>
           <Link
             to="/collections"
-            className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg shadow-blue-400/50 hover:shadow-xl text-sm sm:text-base"
+            className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-[#00aeb2] text-white font-bold rounded-lg hover:bg-[#00aeb2] hover:text-[#fff6e9] transition-all duration-300 shadow-lg shadow-[#00aeb2]/50 hover:shadow-xl text-sm sm:text-base"
           >
             Continue Shopping
           </Link>

@@ -4,7 +4,7 @@ import { getAuth } from "@clerk/express";
 export const createOrder = async (req, res) => {
   try {
     const { userId } = getAuth(req);
-    
+
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
@@ -32,9 +32,9 @@ export const getOrders = async (req, res) => {
 export const getMyOrders = async (req, res) => {
   try {
     const { userId } = getAuth(req);
-    
+
     // console.log("GET MY ORDERS - userId:", userId);
-    
+
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
@@ -95,12 +95,8 @@ export const cancelOrder = async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    // Can only cancel if order is in "Placed" status (not shipped or delivered)
-    if (order.orderStatus !== "Placed") {
-      return res.status(400).json({ message: "Cannot cancel order that has already been shipped or delivered" });
-    }
-
     // Mark as Cancelled
+
     order.orderStatus = "Cancelled";
     await order.save();
 
@@ -148,11 +144,6 @@ export const requestReturn = async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    // Can only request return if order is Delivered
-    if (order.orderStatus !== "Delivered") {
-      return res.status(400).json({ message: "Return can only be requested for delivered orders" });
-    }
-
     // Check if already has a return request
     if (order.returnRequest && order.returnRequest.status !== "None") {
       return res.status(400).json({ message: "Return request already exists for this order" });
@@ -196,7 +187,7 @@ export const approveReturn = async (req, res) => {
 
     order.returnRequest.status = "Approved";
     order.returnRequest.approvedAt = new Date();
-    
+
     if (refundStatus) {
       order.returnRequest.refundStatus = refundStatus;
     }
@@ -234,6 +225,22 @@ export const rejectReturn = async (req, res) => {
     res.json({ message: "Return request rejected", order });
   } catch (error) {
     console.error("REJECT RETURN ERROR:", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByIdAndDelete(id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json({ message: "Order deleted successfully" });
+  } catch (error) {
+    console.error("DELETE ORDER ERROR:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

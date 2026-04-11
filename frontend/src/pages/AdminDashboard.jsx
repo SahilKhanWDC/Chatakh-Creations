@@ -306,6 +306,19 @@ const AdminDashboard = () => {
     }
   };
 
+  /* ---------------- DELETE ORDER ---------------- */
+  const deleteOrder = async (orderId) => {
+    if (!window.confirm("Delete this order? This action cannot be undone.")) return;
+    try {
+      await api.delete(`/api/orders/${orderId}`);
+      alert("Order deleted successfully!");
+      await fetchAdminData();
+    } catch (err) {
+      console.error("DELETE ORDER ERROR:", err);
+      alert(err.response?.data?.message || "Order deletion failed");
+    }
+  };
+
   /* ---------------- APPROVE RETURN ---------------- */
   const approveReturn = async (orderId) => {
     try {
@@ -621,7 +634,14 @@ const AdminDashboard = () => {
                     <div className="flex-1">
                       <p className="font-semibold text-slate-900 text-lg">{p.name}</p>
                       <p className="text-sm text-gray-600 line-clamp-1">{p.description}</p>
-                      <p className="text-lg font-bold text-blue-400 mt-1">₹{p.price}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-lg font-bold text-blue-400">₹{p.price}</p>
+                        {p.shippingCharge > 0 && (
+                          <span className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-md font-semibold border border-blue-200">
+                            + ₹{p.shippingCharge} Shipping
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-3 w-full md:w-auto">
@@ -683,14 +703,14 @@ const AdminDashboard = () => {
                           🔄 Return: {o.returnRequest.status}
                         </span>
                       )}
-                      <div className="w-full md:w-auto">
+                      <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2">
                         {o.orderStatus === "Cancelled" ? (
-                          <span className="inline-block bg-red-200 text-red-800 px-6 py-2 rounded-full font-semibold">
+                          <span className="inline-block bg-red-200 text-red-800 px-6 py-2 rounded-full font-semibold h-fit">
                             ❌ CANCELLED
                           </span>
                         ) : (
                           <select
-                          className="w-full md:w-auto border-2 border-gray-300 rounded-xl px-4 py-2 font-semibold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors duration-300"
+                          className="w-full sm:w-auto border-2 border-gray-300 rounded-xl px-4 py-2 font-semibold text-slate-900 focus:outline-none focus:border-blue-500 transition-colors duration-300 h-fit"
                             value={o.orderStatus}
                             onChange={(e) => updateStatus(o._id, e.target.value)}
                           >
@@ -699,13 +719,20 @@ const AdminDashboard = () => {
                             <option value="Delivered">✅ Delivered</option>
                           </select>
                         )}
+                        <button
+                          onClick={() => deleteOrder(o._id)}
+                          className="px-4 py-2 bg-red-100 text-red-600 font-bold rounded-xl hover:bg-red-200 transition-colors border border-red-200 flex items-center justify-center gap-1 h-fit"
+                          title="Delete Order"
+                        >
+                          <span>🗑️</span> Delete
+                        </button>
                       </div>
                     </div>
                   </div>
 
                   <div className="bg-white rounded-xl p-4 mb-4">
                     <p className="text-sm font-semibold text-slate-900 mb-3">Items:</p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 mb-4 animate-fade-in">
                       {o.items.map((item, idx) => (
                         <li key={idx} className="text-sm text-gray-700 flex justify-between">
                           <span>{item.name} (Size: {item.size})</span>
@@ -713,6 +740,17 @@ const AdminDashboard = () => {
                         </li>
                       ))}
                     </ul>
+                    {o.shippingAddress && (
+                      <div className="border-t border-gray-100 pt-3">
+                        <p className="text-sm font-semibold text-slate-900 mb-2">📍 Shipping Address:</p>
+                        <div className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3">
+                          <p className="font-medium text-slate-900">{o.shippingAddress.fullName}</p>
+                          <p>{o.shippingAddress.address}</p>
+                          <p>{o.shippingAddress.city}, {o.shippingAddress.state} - {o.shippingAddress.pincode}</p>
+                          <p className="mt-1">📞 {o.shippingAddress.phone}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* RETURN REQUEST DETAILS */}
@@ -776,7 +814,9 @@ const AdminDashboard = () => {
                     </div>
                     <div className="bg-white rounded-xl p-3">
                       <p className="text-xs text-gray-600">Shipping</p>
-                      <p className="font-semibold text-slate-900">₹40</p>
+                      <p className="font-semibold text-slate-900">
+                        {o.shippingCost > 0 ? `₹${o.shippingCost}` : 'Free'}
+                      </p>
                     </div>
                     <div className="bg-white rounded-xl p-3 col-span-2 md:col-span-1">
                       <p className="text-xs text-gray-600">Total</p>

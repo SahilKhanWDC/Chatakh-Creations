@@ -233,36 +233,58 @@ const MyOrders = () => {
                   </div>
                 </div>
 
-                {/* PRICING BREAKDOWN */}
-                {(order.subtotal || order.shippingCost) && (
-                  <div className="bg-slate-700/30 rounded-lg p-4 mb-6 border border-slate-700">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Pricing Breakdown</p>
-                    <div className="space-y-2 text-sm">
-                      {order.subtotal > 0 && (
-                        <div className="flex justify-between">
-                          <span className="text-gray-300">Subtotal</span>
-                          <span className="text-white font-semibold">₹{order.subtotal}</span>
-                        </div>
-                      )}
-                      {order.shippingCost > 0 && (
-                        <div className="flex justify-between">
-                          <span className="text-gray-300">Shipping Cost</span>
-                          <span className="text-orange-400 font-semibold">₹{order.shippingCost}</span>
-                        </div>
-                      )}
-                      {order.shippingCost === 0 && (
-                        <div className="flex justify-between">
-                          <span className="text-gray-300">Shipping Cost</span>
-                          <span className="text-green-400 font-semibold">Free</span>
-                        </div>
-                      )}
+                {/* PAYMENT RECEIPT & BREAKDOWN */}
+                {(order.subtotal || order.shippingCost || order.paymentInfo) && (
+                  <div className="bg-slate-700/30 rounded-lg p-5 mb-6 border border-slate-600 shadow-inner">
+                    <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-600">
+                      <p className="text-sm font-bold text-blue-400 uppercase tracking-wider">Final Payment Receipt</p>
+                      <span className="bg-blue-900/50 text-blue-300 text-xs px-2 py-1 rounded font-semibold border border-blue-500/30">
+                        {order.paymentStatus || "Paid"}
+                      </span>
                     </div>
+
+                    <div className="space-y-3 text-sm mb-4">
+                      {order.subtotal > 0 && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400">Subtotal</span>
+                          <span className="text-gray-200 font-medium">₹{order.subtotal}</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-400">Shipping Charges</span>
+                        <span className={order.shippingCost > 0 ? "text-orange-400 font-medium" : "text-green-400 font-medium"}>
+                          {order.shippingCost > 0 ? `₹${order.shippingCost}` : "Free"}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-3 border-t border-slate-600">
+                        <span className="text-gray-300 font-bold">Total Amount Paid</span>
+                        <span className="text-white font-bold text-lg">₹{order.totalAmount}</span>
+                      </div>
+                    </div>
+
+                    {order.paymentInfo && (
+                      <div className="bg-slate-800/50 rounded p-3 mt-4 border border-slate-700/50">
+                        <p className="text-xs text-gray-500 mb-2 uppercase tracking-wide">Transaction Details</p>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p className="text-xs text-gray-500">Payment ID</p>
+                            <p className="font-mono text-gray-300 text-xs break-all">{order.paymentInfo.razorpay_payment_id || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Method</p>
+                            <p className="text-gray-300 text-xs font-medium uppercase">{order.paymentInfo.paymentMethod || "Online"}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {/* ACTION BUTTONS */}
                 <div className="flex flex-col md:flex-row gap-3">
-                  {order.orderStatus === "Placed" && (
+                  {order.orderStatus !== "Cancelled" && (
                     <button
                       onClick={() => handleCancelOrder(order._id)}
                       className="flex-1 md:flex-none px-6 py-3 bg-red-500/20 text-red-400 font-bold rounded-lg hover:bg-red-500/30 transition-all duration-300 shadow-md hover:shadow-lg border border-red-500/50"
@@ -271,7 +293,7 @@ const MyOrders = () => {
                     </button>
                   )}
                   
-                  {order.orderStatus === "Delivered" && (!order.returnRequest || order.returnRequest.status === "None") && (
+                  {order.orderStatus !== "Cancelled" && (!order.returnRequest || order.returnRequest.status === "None") && (
                     <button
                       onClick={() => handleReturnClick(order._id)}
                       className="flex-1 md:flex-none px-6 py-3 bg-purple-500/20 text-purple-400 font-bold rounded-lg hover:bg-purple-500/30 transition-all duration-300 shadow-md hover:shadow-lg border border-purple-500/50"

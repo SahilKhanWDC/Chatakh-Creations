@@ -92,17 +92,17 @@ MONGO_URI=mongodb+srv://shikharuser:YOUR_PASSWORD@cluster.mongodb.net/shikharclo
 JWT_SECRET=supersecretjwt
 
 # RAZORPAY (keep your test keys for now)
-RAZORPAY_KEY_ID=rzp_test_RukjsMfHLtFTPs
-RAZORPAY_KEY_SECRET=Kh7t9Qw6xYwaSSzo10QjNOqR
+RAZORPAY_KEY_ID=your_secret_id
+RAZORPAY_KEY_SECRET=your_secret
 
 # CLOUDINARY - Get these from dashboard.cloudinary.com
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=MJcjW-wvpVWTCY51gKYAhbUBqyw
+CLOUDINARY_API_SECRET=your_secret_key
 
 # CLERK - Use production keys when available
-CLERK_PUBLISHABLE_KEY=pk_test_Y2hhcm1pbmctZ2F0b3ItMi5jbGVyay5hY2NvdW50cy5kZXYk
-CLERK_SECRET_KEY=sk_test_AxDX37O77YFpMslHOtffF637DNZbufiZjnLyDQ1U2K
+CLERK_PUBLISHABLE_KEY=your_public_key
+CLERK_SECRET_KEY=your_secret_key
 ```
 
 4. Click "Save" and Render will auto-restart the service

@@ -473,9 +473,9 @@ const AdminDashboard = () => {
 
           <button
             onClick={submit}
-            className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg shadow-blue-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="w-full md:w-auto bg-[#00aeb2] hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg shadow-blue-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
-            ✨ Add Product
+            Add Product
           </button>
         </section>
 

@@ -55,7 +55,7 @@ const Navbar = () => {
             {user?.publicMetadata?.role === "admin" && (
               <Link 
                 to="/admin" 
-                className="text-[#fff6e9] font-semibold hover:opacity-90 transition-colors duration-200 px-3 py-1 rounded-lg bg-[#ec0080] text-sm lg:text-base"
+                className="text-[#fff6e9] font-semibold hover:opacity-90 transition-colors duration-200 px-3 py-1 rounded-lg bg-[#ec0080] hover:bg-[#00aeb2] text-sm lg:text-base"
               >
                 Admin Panel
               </Link>

@@ -1,6 +1,15 @@
+
+/* Import the font from Google */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 
+/* Force every device to use this font */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Your custom animation */
 @keyframes marquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }

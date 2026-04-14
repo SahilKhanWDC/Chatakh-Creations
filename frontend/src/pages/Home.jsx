@@ -213,88 +213,51 @@ const Home = () => {
         </div>
       </section> */}
       {/* INSTAGRAM SECTION */}
-      <section className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28 px-3 sm:px-4 md:px-6 border-t border-[#fce4f3]">
-        {/* MISTAKE FIXED: Added the track container to hold and animate the images */}
-        <div className="absolute inset-0 z-0 flex w-[200%] animate-marquee">
-          {/* First Image Set */}
-          <div className="flex w-1/2">
-            <img
-              src="/img4.jpeg"
-              alt="Insta 1"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="/img3.jpeg"
-              alt="Insta 2"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="/img2.jpeg"
-              alt="Insta 3"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="/img1.jpeg"
-              alt="Insta 4"
-              className="h-full w-full object-cover"
-            />
-          </div>
-          {/* MISTAKE FIXED: Duplicated the exact same image set so the loop never breaks */}
-          <div className="flex w-1/2">
-            <img
-              src="img4.jpeg"
-              alt="Insta 1"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="img3.jpeg"
-              alt="Insta 2"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="img2.jpeg"
-              alt="Insta 3"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="img1.jpeg"
-              alt="Insta 4"
-              className="h-full w-full object-cover"
-            />
-          </div>
+      <section className="relative overflow-hidden min-h-[400px] flex items-center py-12 sm:py-16 md:py-20 lg:py-28 px-3 sm:px-4 md:px-6 border-t border-[#fce4f3]">
+      
+      <div className="absolute inset-0 z-0 flex w-max animate-marquee">
+        {/* First Image Set - Fixed with 25vw for desktop scaling */}
+        <div className="flex w-max">
+          <img src="/img4.jpeg" alt="Insta 1" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img3.jpeg" alt="Insta 2" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img2.jpeg" alt="Insta 3" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img1.jpeg" alt="Insta 4" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
         </div>
-
-        {/* MISTAKE FIXED: Removed the solid pink bg from the section and added this semi-transparent overlay layer instead */}
-        <div className="absolute inset-0 z-0 bg-gray-950/30"></div>
-
-        {/* MISTAKE FIXED: Added relative and z-10 so your text container floats above the images and overlay */}
-        <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
-          <p className="text-[#fff6e9] text-xs font-semibold tracking-[0.2em] uppercase mb-2">
-            Connect With Us
-          </p>
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-6 text-[#fff6e9]">
-            Follow Us on Instagram
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg text-[#fff6e9] mb-6 sm:mb-10">
-            Stay updated with our latest collections and exclusive deals
-          </p>
-          <a
-            href="https://www.instagram.com/chatakh_?igsh=N29yem16Y2hteGRr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 sm:px-8 md:px-12 py-3 sm:py-4 bg-[#fff6e9] text-pink-500 font-semibold rounded-full hover:bg-[#00aeb2] hover:text-[#ffffff] transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 text-base sm:text-lg group"
-          >
-            <svg
-              className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 110-2.881 1.44 1.44 0 010 2.881z" />
-            </svg>
-            Follow @chatakh_
-          </a>
+        
+        {/* Duplicated Image Set */}
+        <div className="flex w-max">
+          <img src="/img4.jpeg" alt="Insta 1" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img3.jpeg" alt="Insta 2" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img2.jpeg" alt="Insta 3" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
+          <img src="/img1.jpeg" alt="Insta 4" className="h-full w-[100px] md:w-[25vw] shrink-0 object-cover" />
         </div>
-      </section>
+      </div>
+
+      <div className="absolute inset-0 z-0 bg-gray-950/30"></div>
+
+      <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
+        <p className="text-[#fff6e9] text-xs font-semibold tracking-[0.2em] uppercase mb-2">
+          Connect With Us
+        </p>
+        <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-6 text-[#fff6e9]">
+          Follow Us on Instagram
+        </h2>
+        <p className="text-sm sm:text-base md:text-lg text-[#fff6e9] mb-6 sm:mb-10">
+          Stay updated with our latest collections and exclusive deals
+        </p>
+        <a
+          href="https://www.instagram.com/chatakh_?igsh=N29yem16Y2hteGRr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center px-6 sm:px-8 md:px-12 py-3 sm:py-4 bg-[#fff6e9] text-pink-500 font-semibold rounded-full hover:bg-[#00aeb2] hover:text-[#ffffff] transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 text-base sm:text-lg group"
+        >
+          <svg className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 110-2.881 1.44 1.44 0 010 2.881z"/>
+          </svg>
+          Follow @chatakh_
+        </a>
+      </div>
+    </section>
 
       {/* WHY US */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-28 px-3 sm:px-4 md:px-6 bg-[#fef9ec]">

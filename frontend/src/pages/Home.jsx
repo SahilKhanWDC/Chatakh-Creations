@@ -14,6 +14,20 @@ const Home = () => {
   const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Set initial value
+    setIsMobile(window.innerWidth < 768);
+
+    // Handle resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,7 +52,7 @@ const Home = () => {
       <section
         className="min-h-[70vh] sm:min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 md:px-6 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white relative overflow-hidden"
         style={{
-          backgroundImage: "url(/IMG_8301.png)",
+          backgroundImage: isMobile ? "url(/v.png)" : "url(/IMG_8301.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
@@ -48,7 +62,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/60"></div>
 
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[Montserrat] font-bold mb-4 sm:mb-6 leading-tight tracking-normal ">
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[Montserrat] font-bold mb-4 mt-82 sm:mt-44 lg:mt-52 sm:mb-6 leading-tight tracking-normal ">
             BORN TO STAND OUT
           </h1>
           <p

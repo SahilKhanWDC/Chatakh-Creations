@@ -153,7 +153,7 @@ const Home = () => {
 
               <div className="text-center">
                 <Link
-                  to="/collections"
+                  to="/collections/threads-of-aura"
                   className="inline-flex items-center justify-center px-8 sm:px-10 md:px-12 py-3 sm:py-4 bg-[#ec0080] text-[#fff6e9] hover:text-[#fff6e9] font-semibold rounded-full hover:bg-[#00aeb2] transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 text-base sm:text-lg group tracking-wide"
                 >
                   The Threads of Aura
@@ -190,14 +190,16 @@ const Home = () => {
             <div className="w-12 sm:w-16 h-0.5 bg-[#ec0080] mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 md:gap-8">
-            <CategoryCard title="Men" category="men" delay="0" />
-            <CategoryCard title="Women" category="women" delay="100" />
-            <CategoryCard title="Couple" category="couple" delay="200" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-8">
             <CategoryCard
-              title="Accessories"
-              category="accessory"
-              delay="300"
+              title="The Threads of Aura"
+              to="/collections/threads-of-aura"
+              delay="0"
+            />
+            <CategoryCard
+              title="The Colors of Aura"
+              to="/collections/colors-of-aura"
+              delay="100"
             />
           </div>
         </div>
@@ -338,9 +340,9 @@ const Home = () => {
   );
 };
 
-const CategoryCard = ({ title, category, delay }) => (
+const CategoryCard = ({ title, to, delay }) => (
   <Link
-    to={`/collections?category=${category}`}
+    to={to}
     className={`group bg-[#00aeb2] border border-[#fce4f3] rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md hover:border-[#ec0080] hover:bg-[#fdf0f8] transition-all duration-300 hover:-translate-y-1`}
     style={{ animationDelay: `${delay}ms` }}
   >

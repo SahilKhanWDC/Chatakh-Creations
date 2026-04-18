@@ -2,9 +2,9 @@ import Product from "../models/Product.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, price, stock, category, subcategory } = req.body;
+    const { name, description, price, stock, mainCollection, category, subcategory } = req.body;
 
-    if (!name || !description || price == null || stock == null) {
+    if (!name || !description || price == null || stock == null || !mainCollection || !category) {
       return res.status(400).json({
         message: "All fields are required"
       });
@@ -27,6 +27,7 @@ export const createProduct = async (req, res) => {
       description,
       price,
       stock,
+      mainCollection,
       category,
       subcategory,
       sizes: req.body.sizes || [],
@@ -42,9 +43,21 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { category, subcategory } = req.query;
+    const { mainCollection, category, subcategory } = req.query;
 
     const filter = {};
+    if (mainCollection) {
+      if (mainCollection === "threads-of-aura") {
+        filter.$or = [
+          { mainCollection: "threads-of-aura" },
+          { mainCollection: { $exists: false } },
+          { mainCollection: null },
+          { mainCollection: "" }
+        ];
+      } else {
+        filter.mainCollection = mainCollection;
+      }
+    }
     if (category) filter.category = category;
     if (subcategory && subcategory !== "all") filter.subcategory = subcategory;
 

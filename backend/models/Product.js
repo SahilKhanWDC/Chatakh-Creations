@@ -8,9 +8,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  mainCollection: {
+    type: String,
+    enum: ["threads-of-aura", "colors-of-aura"],
+    default: "threads-of-aura"
+  },
   category: {
     type: String,
-    enum: ["men", "women", "couple", "accessory"]
+    enum: ["men", "women", "couple"]
   },
   subcategory: String,
   sizes: [String],

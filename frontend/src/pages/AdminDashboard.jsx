@@ -22,9 +22,15 @@ const AdminDashboard = () => {
     price: "",
     stock: "",
     shippingCharge: "",
+    mainCollection: "",
     category: "",
     subcategory: "",
   });
+
+  const mainCollectionOptions = [
+    { value: "threads-of-aura", label: "The Threads of Aura" },
+    { value: "colors-of-aura", label: "The Colors of Aura" },
+  ];
 
   // Define subcategories for each category
   const subcategoryMap = {
@@ -44,12 +50,6 @@ const AdminDashboard = () => {
       { value: "matching-sets", label: "Matching Sets" },
       { value: "couple-tees", label: "Couple T-Shirts" },
       { value: "couple-outfits", label: "Couple Outfits" },
-    ],
-    accessory: [
-      { value: "hats", label: "Hats" },
-      { value: "bags", label: "Bags" },
-      { value: "jewelry", label: "Jewelry" },
-      { value: "scarves", label: "Scarves" },
     ],
   };
 
@@ -189,6 +189,11 @@ const AdminDashboard = () => {
       return;
     }
 
+    if (!form.mainCollection || !form.category) {
+      alert("Please select main collection and category");
+      return;
+    }
+
     if (images.length === 0) {
       alert("Please upload at least one image");
       return;
@@ -215,6 +220,7 @@ const AdminDashboard = () => {
         price: "",
         stock: "",
         shippingCharge: "",
+        mainCollection: "",
         category: "",
         subcategory: "",
       });
@@ -234,6 +240,7 @@ const AdminDashboard = () => {
       price: p.price,
       stock: p.stock,
       shippingCharge: p.shippingCharge || "",
+      mainCollection: p.mainCollection || "",
       category: p.category,
       subcategory: p.subcategory || "",
     });
@@ -266,6 +273,7 @@ const AdminDashboard = () => {
         price: "",
         stock: "",
         shippingCharge: "",
+        mainCollection: "",
         category: "",
         subcategory: "",
       });
@@ -399,6 +407,18 @@ const AdminDashboard = () => {
             />
             <select
               className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
+              value={form.mainCollection}
+              onChange={(e) => setForm({ ...form, mainCollection: e.target.value })}
+            >
+              <option value="">Select Main Collection</option>
+              {mainCollectionOptions.map((collection) => (
+                <option key={collection.value} value={collection.value}>
+                  {collection.label}
+                </option>
+              ))}
+            </select>
+            <select
+              className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value, subcategory: "" })}
             >
@@ -406,7 +426,6 @@ const AdminDashboard = () => {
               <option value="men">Men</option>
               <option value="women">Women</option>
               <option value="couple">Couple</option>
-              <option value="accessory">Accessory</option>
             </select>
             {form.category && (
               <select
@@ -514,6 +533,18 @@ const AdminDashboard = () => {
               />
               <select
                 className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
+                value={form.mainCollection}
+                onChange={(e) => setForm({ ...form, mainCollection: e.target.value })}
+              >
+                <option value="">Select Main Collection</option>
+                {mainCollectionOptions.map((collection) => (
+                  <option key={collection.value} value={collection.value}>
+                    {collection.label}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-slate-900 transition-colors duration-300 text-slate-900 font-medium"
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value, subcategory: "" })}
               >
@@ -521,7 +552,6 @@ const AdminDashboard = () => {
                 <option value="men">Men</option>
                 <option value="women">Women</option>
                 <option value="couple">Couple</option>
-                <option value="accessory">Accessory</option>
               </select>
               {form.category && (
                 <select
@@ -596,7 +626,16 @@ const AdminDashboard = () => {
               <button
                 onClick={() => {
                   setEditing(null);
-                  setForm({ name: "", description: "", price: "", stock: "", category: "" });
+                  setForm({
+                    name: "",
+                    description: "",
+                    price: "",
+                    stock: "",
+                    shippingCharge: "",
+                    mainCollection: "",
+                    category: "",
+                    subcategory: "",
+                  });
                   setImages([]);
                 }}
                 className="flex-1 md:flex-none bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"

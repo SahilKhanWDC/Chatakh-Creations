@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import {
   SignedIn,
@@ -9,7 +9,9 @@ import {
 
 const Navbar = () => {
   const { user } = useUser();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const showHomeButton = location.pathname !== "/";
 
   return (
     <header className="sticky top-0 z-50 bg-[#fff6e9] border-b border-pink-200 shadow-sm">
@@ -28,6 +30,15 @@ const Navbar = () => {
 
         {/* DESKTOP MENU */}
         <div className="hidden md:flex gap-6 lg:gap-8 items-center">
+          {showHomeButton && (
+            <Link
+              to="/"
+              className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 relative group text-sm lg:text-base tracking-wide"
+            >
+              Home
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#ec0080] group-hover:w-full transition-all duration-300"></span>
+            </Link>
+          )}
           <Link 
             to="/collections" 
             className="text-gray-800 font-medium hover:text-[#ec0080] transition-colors duration-200 relative group text-sm lg:text-base tracking-wide"
@@ -105,6 +116,15 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-pink-200 bg-[#fff6e9] animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
+            {showHomeButton && (
+              <Link
+                to="/"
+                className="text-gray-800 font-medium hover:text-[#ec0080] py-3 px-3 rounded-lg hover:bg-[#fce4f3] transition-colors duration-200 text-base"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+            )}
             <Link 
               to="/collections" 
               className="text-gray-800 font-medium hover:text-[#ec0080] py-3 px-3 rounded-lg hover:bg-[#fce4f3] transition-colors duration-200 text-base"

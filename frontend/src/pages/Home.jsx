@@ -343,17 +343,14 @@ const Home = () => {
 const CategoryCard = ({ title, to, delay }) => (
   <Link
     to={to}
-    className={`group relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center border border-[#bdeef0] bg-[radial-gradient(circle_at_22%_18%,rgba(0,174,178,0.15)_0%,rgba(0,174,178,0.08)_38%,rgba(255,255,255,0.78)_100%)] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#00aeb2]/20 hover:border-[#00aeb2]/40`}
+    className={`group rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col items-center justify-center text-center border border-[#06979a] bg-[#00aeb2] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#069fa3] hover:border-[#058d91] hover:shadow-lg hover:shadow-[#00aeb2]/30`}
     style={{ animationDelay: `${delay}ms` }}
   >
-    <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(0,174,178,0.10),transparent_45%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100"></span>
-    <span className="pointer-events-none absolute -left-16 top-0 h-full w-12 -skew-x-12 bg-white/35 opacity-0 transition-all duration-500 group-hover:left-[120%] group-hover:opacity-100"></span>
-
-    <h3 className="relative z-10 text-xl sm:text-2xl md:text-3xl font-bold text-[#0d5960] group-hover:text-[#08464b] transition-colors duration-300 tracking-wide">
+    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#fff6e9] group-hover:text-[#fffaf2] transition-colors duration-300 tracking-wide">
       {title}
     </h3>
-    <span className="relative z-10 mt-3 h-0.5 w-8 bg-[#00aeb2]/70 transition-all duration-300 group-hover:w-14"></span>
-    <span className="relative z-10 mt-2 text-[10px] uppercase tracking-[0.25em] text-[#5c8083] opacity-0 transition-opacity duration-300 group-hover:opacity-90">
+    <span className="mt-3 h-0.5 w-8 bg-[#fff6e9]/70 transition-all duration-300 group-hover:w-14 group-hover:bg-[#fff6e9]"></span>
+    <span className="mt-2 text-[10px] uppercase tracking-[0.25em] text-[#fff6e9]/80 opacity-0 transition-opacity duration-300 group-hover:opacity-95">
       Explore
     </span>
   </Link>

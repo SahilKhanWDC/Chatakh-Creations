@@ -8,13 +8,13 @@ const mainCollections = [
     value: "threads-of-aura",
     name: "The Threads of Aura",
     image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1400&q=80",
+      "/threads of aura.png",
   },
   {
     value: "colors-of-aura",
     name: "The Colors of Aura",
     image:
-      "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1400&q=80",
+      "/colors of aura.png",
   },
 ];
 

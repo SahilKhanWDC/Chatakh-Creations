@@ -369,7 +369,7 @@ const AdminDashboard = () => {
 
         {loadError && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-8">
-            <p className="text-red-700 font-semibold">⚠️ Data Load Error: {loadError}</p>
+            <p className="text-red-700 font-semibold">Data Load Error: {loadError}</p>
           </div>
         )}
 
@@ -619,7 +619,7 @@ const AdminDashboard = () => {
             <div className="flex gap-3">
               <button
                 onClick={update}
-                className="flex-1 md:flex-none bg-[#00aeb2] hover:from-[#00aeb2] hover:to-[#018486] text-white px-8 py-4 rounded-xl font-semibold shadow-lg shadow-green-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="flex-1 md:flex-none bg-[#00aeb2] hover:from-[#00aeb2] hover:to-[#018486] text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 Save Changes
               </button>
@@ -688,7 +688,7 @@ const AdminDashboard = () => {
                       onClick={() => startEdit(p)}
                       className="flex-1 md:flex-none px-6 py-2 border-2 border-blue-400 text-blue-400 rounded-xl font-semibold hover:bg-blue-400/20 transition-all duration-300"
                     >
-                      ✏️ Edit
+                      Edit
                     </button>
                     <button
                       onClick={() => remove(p._id)}
@@ -739,13 +739,13 @@ const AdminDashboard = () => {
                             ? "bg-red-200 text-red-800"
                             : "bg-yellow-200 text-yellow-800"
                         }`}>
-                          🔄 Return: {o.returnRequest.status}
+                          Return: {o.returnRequest.status}
                         </span>
                       )}
                       <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2">
                         {o.orderStatus === "Cancelled" ? (
                           <span className="inline-block bg-red-200 text-red-800 px-6 py-2 rounded-full font-semibold h-fit">
-                            ❌ CANCELLED
+                            CANCELLED
                           </span>
                         ) : (
                           <select
@@ -755,7 +755,7 @@ const AdminDashboard = () => {
                           >
                             <option value="Placed">Placed</option>
                             <option value="Shipped">Shipped</option>
-                            <option value="Delivered">✅ Delivered</option>
+                            <option value="Delivered">Delivered</option>
                           </select>
                         )}
                         <button
@@ -763,7 +763,7 @@ const AdminDashboard = () => {
                           className="px-4 py-2 bg-red-100 text-red-600 font-bold rounded-xl hover:bg-red-200 transition-colors border border-red-200 flex items-center justify-center gap-1 h-fit"
                           title="Delete Order"
                         >
-                          <span>🗑️</span> Delete
+                          Delete
                         </button>
                       </div>
                     </div>
@@ -781,12 +781,12 @@ const AdminDashboard = () => {
                     </ul>
                     {o.shippingAddress && (
                       <div className="border-t border-gray-100 pt-3">
-                        <p className="text-sm font-semibold text-slate-900 mb-2">📍 Shipping Address:</p>
+                        <p className="text-sm font-semibold text-slate-900 mb-2">Shipping Address:</p>
                         <div className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3">
                           <p className="font-medium text-slate-900">{o.shippingAddress.fullName}</p>
                           <p>{o.shippingAddress.address}</p>
                           <p>{o.shippingAddress.city}, {o.shippingAddress.state} - {o.shippingAddress.pincode}</p>
-                          <p className="mt-1">📞 {o.shippingAddress.phone}</p>
+                          <p className="mt-1">{o.shippingAddress.phone}</p>
                         </div>
                       </div>
                     )}
@@ -797,7 +797,7 @@ const AdminDashboard = () => {
                     <div className="bg-purple-50 border-2 border-purple-300 rounded-xl p-4 mb-4">
                       <div className="flex justify-between items-start mb-3">
                         <div>
-                          <p className="text-sm font-bold text-purple-900 mb-2">📋 Return Request Details</p>
+                          <p className="text-sm font-bold text-purple-900 mb-2">Return Request Details</p>
                           <p className="text-sm text-gray-700"><span className="font-semibold">Reason:</span> {o.returnRequest.reason}</p>
                           <p className="text-sm text-gray-700 mt-1"><span className="font-semibold">Description:</span> {o.returnRequest.description}</p>
                           <p className="text-sm text-gray-700 mt-1"><span className="font-semibold">Refund Amount:</span> ₹{o.returnRequest.refundAmount}</p>
@@ -825,13 +825,13 @@ const AdminDashboard = () => {
                             onClick={() => approveReturn(o._id)}
                             className="flex-1 px-4 py-2 bg-green-500/20 text-green-700 font-semibold rounded-lg hover:bg-green-500/30 transition-all duration-300 border border-green-500/50"
                           >
-                            ✅ Approve Return
+                            Approve Return
                           </button>
                           <button
                             onClick={() => rejectReturn(o._id)}
                             className="flex-1 px-4 py-2 bg-red-500/20 text-red-700 font-semibold rounded-lg hover:bg-red-500/30 transition-all duration-300 border border-red-500/50"
                           >
-                            ❌ Reject Return
+                            Reject Return
                           </button>
                         </div>
                       )}
@@ -866,7 +866,7 @@ const AdminDashboard = () => {
                   {/* PAYMENT INFORMATION */}
                   {o.paymentInfo && (
                     <div className="bg-blue-50 border-2 border-blue-300 rounded-xl p-4 mt-4">
-                      <p className="text-sm font-bold text-blue-900 mb-3">💳 Payment Information</p>
+                      <p className="text-sm font-bold text-blue-900 mb-3">Payment Information</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div className="bg-white rounded-lg p-3">
                           <p className="text-xs text-gray-600">Order ID</p>
@@ -889,7 +889,7 @@ const AdminDashboard = () => {
                   )}
 
                   {o.orderStatus === "Cancelled" && (
-                    <p className="mt-4 text-sm text-red-600 font-semibold">⚠️ This order was cancelled by the user</p>
+                    <p className="mt-4 text-sm text-red-600 font-semibold">This order was cancelled by the user</p>
                   )}
                 </div>
               ))

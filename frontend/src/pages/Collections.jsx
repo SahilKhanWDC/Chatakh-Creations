@@ -63,14 +63,14 @@ const Collections = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 w-full">
+    <div className="min-h-screen bg-[#fff6e9] w-full">
       {/* HEADER */}
-      <div className="bg-gradient-to-br from-pink-700 to-pink-500 text-[#fff6e9] py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
+      <div className="bg-linear-to-r from-[#ec0080] via-[#fbad17] to-[#00aeb2] text-[#fff6e9] py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3">
             {selectedCollection ? selectedCollection.name : "Collections"}
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-[#fff6e9]/90 max-w-2xl mx-auto">
             Crafted for those who wear confidence, premium silhouettes that turn everyday moments into statements.
           </p>
         </div>
@@ -81,7 +81,7 @@ const Collections = () => {
           <div className="mb-6">
             <Link
               to="/collections"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-slate-800 text-gray-200 border border-slate-700 hover:border-[#00aeb2] hover:text-white transition-colors duration-300"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-[#fff6e9] text-[#5a3b38] border border-[#f4c87f] hover:border-[#00aeb2] hover:text-[#007d80] transition-colors duration-300"
             >
               <span aria-hidden="true">←</span>
               Back to Collections
@@ -95,7 +95,7 @@ const Collections = () => {
               <Link
                 key={collection.value}
                 to={`/collections/${collection.value}`}
-                className="relative h-56 sm:h-64 md:h-72 rounded-2xl overflow-hidden border-2 border-slate-700 hover:border-[#00aeb2] hover:shadow-xl hover:shadow-[#00aeb2]/20 transition-all duration-300 block"
+                className="relative h-56 sm:h-64 md:h-72 rounded-2xl overflow-hidden border-2 border-[#f3c178] hover:border-[#00aeb2] hover:shadow-xl hover:shadow-[#00aeb2]/20 transition-all duration-300 block"
               >
                 <img
                   src={collection.image}
@@ -103,7 +103,7 @@ const Collections = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
                   <p className="text-[#fff6e9] text-xl sm:text-2xl font-bold tracking-wide">{collection.name}</p>
                 </div>
@@ -113,11 +113,11 @@ const Collections = () => {
         )}
 
         {hasSelectedCollection && !selectedCollection && (
-          <div className="text-center py-16 sm:py-20 border border-slate-800 rounded-2xl bg-slate-900/40">
-            <p className="text-lg sm:text-xl text-gray-200 font-semibold">Collection not found</p>
+          <div className="text-center py-16 sm:py-20 border border-[#f3c178] rounded-2xl bg-[#fffdf8]">
+            <p className="text-lg sm:text-xl text-[#5a3b38] font-semibold">Collection not found</p>
             <Link
               to="/collections"
-              className="inline-block mt-4 px-4 py-2 rounded-full text-sm font-semibold bg-slate-800 text-gray-200 border border-slate-700 hover:border-[#00aeb2] transition-colors duration-300"
+              className="inline-block mt-4 px-4 py-2 rounded-full text-sm font-semibold bg-[#ec0080] text-[#fff6e9] border border-[#ec0080] hover:bg-[#c7006b] transition-colors duration-300"
             >
               Back to Collections
             </Link>
@@ -133,8 +133,8 @@ const Collections = () => {
                 onClick={() => setCategory(option.value)}
                 className={`px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
                   category === option.value
-                    ? "bg-[#fbad17] text-[#fff6e9] shadow-lg shadow-[#fbad17]/50"
-                    : "bg-slate-800 text-gray-400 border border-slate-700 hover:border-[#fbad17] hover:shadow-md"
+                    ? "bg-[#00aeb2] text-[#fff6e9] shadow-lg shadow-[#00aeb2]/40"
+                    : "bg-[#fffdf8] text-[#7a5e4f] border border-[#f3c178] hover:border-[#00aeb2] hover:text-[#007d80] hover:shadow-md"
                 }`}
               >
                 {option.label}
@@ -146,14 +146,14 @@ const Collections = () => {
         {/* PRODUCTS GRID */}
         {!hasSelectedCollection ? null : !selectedCollection ? null : loading ? (
           <div className="flex justify-center items-center py-16 sm:py-20">
-            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-2 border-b-2 border-[#ec0080]"></div>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-16 sm:py-20">
-            <p className="text-lg sm:text-xl text-gray-300 font-semibold">
+            <p className="text-lg sm:text-xl text-[#5a3b38] font-semibold">
               No products available in this section
             </p>
-            <p className="text-gray-500 mt-2 text-sm sm:text-base">Check back soon for new arrivals!</p>
+            <p className="text-[#8a6b57] mt-2 text-sm sm:text-base">Check back soon for new arrivals!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">

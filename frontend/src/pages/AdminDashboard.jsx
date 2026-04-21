@@ -619,9 +619,9 @@ const AdminDashboard = () => {
             <div className="flex gap-3">
               <button
                 onClick={update}
-                className="flex-1 md:flex-none bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg shadow-green-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="flex-1 md:flex-none bg-[#00aeb2] hover:from-[#00aeb2] hover:to-[#018486] text-white px-8 py-4 rounded-xl font-semibold shadow-lg shadow-green-400/50 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-                ✅ Save Changes
+                Save Changes
               </button>
               <button
                 onClick={() => {
@@ -640,7 +640,7 @@ const AdminDashboard = () => {
                 }}
                 className="flex-1 md:flex-none bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
-                ❌ Cancel
+                Cancel
               </button>
             </div>
           </section>

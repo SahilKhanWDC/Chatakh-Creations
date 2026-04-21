@@ -65,7 +65,7 @@ const Collections = () => {
   return (
     <div className="min-h-screen bg-[#fff6e9] w-full">
       {/* HEADER */}
-      <div className="bg-linear-to-r from-[#ec0080] via-[#fbad17] to-[#00aeb2] text-[#fff6e9] py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
+      <div className="bg-linear-to-br from-[#ec0080] to-[#c7006b] text-[#fff6e9] py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6 w-full">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3">
             {selectedCollection ? selectedCollection.name : "Collections"}

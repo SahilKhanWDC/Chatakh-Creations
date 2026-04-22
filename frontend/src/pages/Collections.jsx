@@ -14,7 +14,7 @@ const mainCollections = [
     value: "colors-of-aura",
     name: "The Colors of Aura",
     image:
-      "/colors of aura1.png",
+      "/colors of aura.png",
   },
 ];
 

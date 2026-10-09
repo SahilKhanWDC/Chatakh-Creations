@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
   },
   mainCollection: {
     type: String,
-    enum: ["threads-of-aura", "colors-of-aura"],
+    enum: ["threads-of-aura", "colors-of-aura", "accessories", "bandhani"],
     default: "threads-of-aura"
   },
   category: {

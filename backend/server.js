@@ -27,11 +27,19 @@ app.use(cors({
       return callback(null, true);
     }
 
-    const allowedOrigins = [
+    // Allowed frontends: defaults + ALPHA domain + env-driven (no more code
+    // changes for new domains — just set ALLOWED_ORIGINS on Render).
+    const defaultOrigins = [
       "http://localhost:5173",
       "https://chatakh-creations.vercel.app",
-      "https://www.chatakh-creations.vercel.app"
+      "https://www.chatakh-creations.vercel.app",
+      "https://chatakh-creations-alpha.vercel.app"
     ];
+    const envOrigins = (process.env.ALLOWED_ORIGINS || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
 
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
